@@ -53,4 +53,6 @@ void cells_write_pbm_generation(struct cells_t *cells, FILE *fptr) {
       fprintf(fptr, "\n");
     }
   }
+
+  fprintf(fptr, "\n");
 }
