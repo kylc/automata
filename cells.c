@@ -4,11 +4,11 @@
 
 #include "cells.h"
 
-struct cells_t *cells_new(int length, cell_state defval) {
+struct cells_t *cells_new(size_t length, cell_state defval) {
   struct cells_t *cells = malloc(sizeof(struct cells_t) + length * sizeof(cell_state));
 
   cells->length = length;
-  for(int i = 0; i < length; i++) {
+  for(size_t i = 0; i < length; i++) {
     cells->state[i] = defval;
   }
 
@@ -31,11 +31,11 @@ size_t cells_length(struct cells_t *cells) {
   return cells->length;
 }
 
-void cells_set_state(struct cells_t *cells, int idx, int st) {
+void cells_set_state(struct cells_t *cells, size_t idx, int st) {
   cells->state[idx] = st;
 }
 
-cell_state cells_get_state(struct cells_t *cells, int idx) {
+cell_state cells_get_state(struct cells_t *cells, size_t idx) {
   return cells->state[idx];
 }
 
@@ -45,7 +45,7 @@ void cells_write_pbm_header(struct cells_t *cells, FILE *fptr, int width, int he
 }
 
 void cells_write_pbm_generation(struct cells_t *cells, FILE *fptr) {
-  for(int i = 0; i < cells_length(cells); i++) {
+  for(size_t i = 0; i < cells_length(cells); i++) {
     fprintf(fptr, "%d ", cells_get_state(cells, i));
 
     // No more than 70 characters per line
