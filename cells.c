@@ -31,7 +31,7 @@ size_t cells_length(struct cells_t *cells) {
   return cells->length;
 }
 
-void cells_set_state(struct cells_t *cells, size_t idx, int st) {
+void cells_set_state(struct cells_t *cells, size_t idx, cell_state st) {
   cells->state[idx] = st;
 }
 
