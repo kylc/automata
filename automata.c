@@ -33,7 +33,7 @@ int rule_30_pattern(struct cells_t *cells, int i) {
 struct cells_t *rule_30(struct cells_t *cells) {
   struct cells_t *new_cells = cells_copy(cells);
 
-  for(int i = 1; i < cells->length - 1; i++) {
+  for(int i = 1; i < cells_length(cells) - 1; i++) {
     int newval = rule_30_pattern(cells, i);
     cells_set_state(new_cells, i, newval);
   }
