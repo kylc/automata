@@ -10,7 +10,10 @@
 bool pattern_matches(struct cells_t *cells, size_t idx, cell_state a, cell_state b,
     cell_state c) {
 
-  // TODO: Range checks
+  if(idx > cells_length(cells) - 1) {
+    return false;
+  }
+
   return cells_get_state(cells, idx - 1) == a
       && cells_get_state(cells, idx)     == b
       && cells_get_state(cells, idx + 1) == c;
