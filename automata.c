@@ -42,10 +42,15 @@ struct cells_t *rule_30(struct cells_t *cells) {
 }
 
 int main(int argc, char **argv) {
+  if(argc < 2) {
+    fprintf(stderr, "Usage: automata outfile\n");
+    return EXIT_SUCCESS;
+  }
+
   struct cells_t *cells = cells_new(CELLS_WIDTH, OFF);
   cells_set_state(cells, CELLS_WIDTH / 2, ON);
 
-  FILE *fptr = fopen("output.pbm", "w");
+  FILE *fptr = fopen(argv[1], "w");
   cells_write_pbm_header(cells, fptr, CELLS_WIDTH, GENERATIONS);
 
   struct cells_t *new_cells;
