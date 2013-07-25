@@ -20,17 +20,14 @@ bool pattern_matches(struct cells_t *cells, size_t idx, cell_state a, cell_state
 }
 
 cell_state rule_30_pattern(struct cells_t *cells, size_t i) {
-    if(pattern_matches(cells, i, ON, OFF, OFF)) {
-      return ON;
-    } else if(pattern_matches(cells, i, OFF, ON, ON)) {
-      return ON;
-    } else if(pattern_matches(cells, i, OFF, ON, OFF)) {
-      return ON;
-    } else if(pattern_matches(cells, i, OFF, OFF, ON)) {
-      return ON;
-    }
+  if(pattern_matches(cells, i, ON, OFF, OFF)
+      || pattern_matches(cells, i, OFF, ON, ON)
+      || pattern_matches(cells, i, OFF, ON, OFF)
+      || pattern_matches(cells, i, OFF, OFF, ON)) {
+    return ON;
+  }
 
-    return OFF;
+  return OFF;
 }
 
 struct cells_t *rule_30(struct cells_t *cells) {
