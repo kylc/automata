@@ -7,6 +7,17 @@
 #define CELLS_WIDTH 500
 #define GENERATIONS 250
 
+const cell_state PATTERNS[][3] = {
+  {ON, ON, ON},
+  {ON, ON, OFF},
+  {ON, OFF, ON},
+  {ON, OFF, OFF},
+  {OFF, ON, ON},
+  {OFF, ON, OFF},
+  {OFF, OFF, ON},
+  {OFF, OFF, OFF}
+};
+
 bool pattern_matches(struct cells_t *cells, size_t idx, cell_state a, cell_state b,
     cell_state c) {
 
@@ -19,15 +30,17 @@ bool pattern_matches(struct cells_t *cells, size_t idx, cell_state a, cell_state
       && cells_get_state(cells, idx + 1) == c;
 }
 
-cell_state rule_30_pattern(struct cells_t *cells, size_t i) {
-  if(pattern_matches(cells, i, ON, OFF, OFF)
-      || pattern_matches(cells, i, OFF, ON, ON)
-      || pattern_matches(cells, i, OFF, ON, OFF)
-      || pattern_matches(cells, i, OFF, OFF, ON)) {
-    return ON;
+cell_state rule_30_pattern(struct cells_t *cells, size_t idx) {
+  cell_state rule_30[] = { OFF, OFF, OFF, ON, ON, ON, ON, OFF };
+
+  for(int i = 0; i < 8; i++) {
+    if(pattern_matches(cells, idx, PATTERNS[i][0], PATTERNS[i][1], PATTERNS[i][2])) {
+      return rule_30[i];
+    }
   }
 
-  return OFF;
+  fprintf(stderr, "Reached impossible pattern, quitting.\n");
+  exit(EXIT_FAILURE);
 }
 
 struct cells_t *rule_30(struct cells_t *cells) {
