@@ -30,12 +30,10 @@ bool pattern_matches(struct cells_t *cells, size_t idx, cell_state a, cell_state
       && cells_get_state(cells, idx + 1) == c;
 }
 
-cell_state rule_30_pattern(struct cells_t *cells, size_t idx) {
-  cell_state rule_30[] = { OFF, OFF, OFF, ON, ON, ON, ON, OFF };
-
+cell_state lookup_rule_table(cell_state rule[8], struct cells_t *cells, size_t idx) {
   for(int i = 0; i < 8; i++) {
     if(pattern_matches(cells, idx, PATTERNS[i][0], PATTERNS[i][1], PATTERNS[i][2])) {
-      return rule_30[i];
+      return rule[i];
     }
   }
 
@@ -43,11 +41,11 @@ cell_state rule_30_pattern(struct cells_t *cells, size_t idx) {
   exit(EXIT_FAILURE);
 }
 
-struct cells_t *rule_30(struct cells_t *cells) {
+struct cells_t *apply_rule(cell_state rule[8], struct cells_t *cells) {
   struct cells_t *new_cells = cells_copy(cells);
 
   for(size_t i = 1; i < cells_length(cells) - 1; i++) {
-    cell_state newval = rule_30_pattern(cells, i);
+    cell_state newval = lookup_rule_table(rule, cells, i);
     cells_set_state(new_cells, i, newval);
   }
 
@@ -66,9 +64,11 @@ int main(int argc, char **argv) {
   FILE *fptr = fopen(argv[1], "w");
   cells_write_pbm_header(cells, fptr, CELLS_WIDTH, GENERATIONS);
 
+  cell_state rule_30[] = { OFF, OFF, OFF, ON, ON, ON, ON, OFF };
+
   struct cells_t *new_cells;
   for(int gen = 0; gen < GENERATIONS; gen++) {
-    new_cells = rule_30(cells);
+    new_cells = apply_rule(rule_30, cells);
     cells_free(cells);
     cells = new_cells;
 
